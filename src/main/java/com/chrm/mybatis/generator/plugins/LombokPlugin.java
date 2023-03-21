@@ -41,7 +41,7 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass,
                                                  IntrospectedTable introspectedTable) {
-        addDataAnnotation(topLevelClass);
+        addDataAnnotation(topLevelClass, introspectedTable);
         return true;
     }
 
@@ -55,7 +55,7 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass,
                                                  IntrospectedTable introspectedTable) {
-        addDataAnnotation(topLevelClass);
+        addDataAnnotation(topLevelClass, introspectedTable);
         return true;
     }
 
@@ -69,7 +69,7 @@ public class LombokPlugin extends PluginAdapter {
     @Override
     public boolean modelRecordWithBLOBsClassGenerated(
             TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        addDataAnnotation(topLevelClass);
+        addDataAnnotation(topLevelClass, introspectedTable);
         return true;
     }
 
@@ -115,12 +115,21 @@ public class LombokPlugin extends PluginAdapter {
 
     /**
      * Adds the @Data lombok import and annotation to the class
+     * @Data
+     * @Builder
+     * @NoArgsConstructor
+     * @AllArgsConstructor
+     * @ApiModel(description = "单价库版本")
      *
      * @param topLevelClass
      */
-    protected void addDataAnnotation(TopLevelClass topLevelClass) {
+    protected void addDataAnnotation(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         topLevelClass.addImportedType(dataAnnotation);
         topLevelClass.addAnnotation("@Data");
+        topLevelClass.addAnnotation("@Builder");
+        topLevelClass.addAnnotation("@NoArgsConstructor");
+        topLevelClass.addAnnotation("@AllArgsConstructor");
+        topLevelClass.addAnnotation("@ApiModel(description = \"" + "\"" + ")");
     }
 
 }

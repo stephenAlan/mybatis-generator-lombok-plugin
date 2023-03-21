@@ -9,8 +9,10 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.*;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -28,10 +30,10 @@ public class CommentPlugin extends PluginAdapter {
     }
 
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        topLevelClass.getJavaDocLines().clear();
-        topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine(" * Table: " + introspectedTable.getFullyQualifiedTable());
-        topLevelClass.addJavaDocLine(" */");
+        // topLevelClass.getJavaDocLines().clear();
+        // topLevelClass.addJavaDocLine("/**");
+        // topLevelClass.addJavaDocLine(" * Table: " + introspectedTable.getFullyQualifiedTable());
+        // topLevelClass.addJavaDocLine(" */");
         return true;
     }
 
@@ -50,26 +52,27 @@ public class CommentPlugin extends PluginAdapter {
 
     private void comment(JavaElement element, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
         element.getJavaDocLines().clear();
-        element.addJavaDocLine("/**");
-        String remark = introspectedColumn.getRemarks();
-        if (remark != null && remark.length() > 1) {
-            element.addJavaDocLine(" * " + remark);
-            element.addJavaDocLine(" *");
-        }
+        String remark = introspectedColumn.getRemarks() ;
+        // element.addJavaDocLine("/**");
+        // if (remark != null && remark.length() > 1) {
+        //     element.addJavaDocLine(" * " + remark);
+            // element.addJavaDocLine(" *");
+        // }
 
-        element.addJavaDocLine(" * Table:     " + introspectedTable.getFullyQualifiedTable());
-        element.addJavaDocLine(" * Column:    " + introspectedColumn.getActualColumnName());
-        element.addJavaDocLine(" * Nullable:  " + introspectedColumn.isNullable());
-        element.addJavaDocLine(" */");
+        // element.addJavaDocLine(" * Table:     " + introspectedTable.getFullyQualifiedTable());
+        // element.addJavaDocLine(" * Column:    " + introspectedColumn.getActualColumnName());
+        // element.addJavaDocLine(" * Nullable:  " + introspectedColumn.isNullable());
+        // element.addJavaDocLine(" */");
+        element.addJavaDocLine("@ApiModelProperty(notes = \"" + Util.null2Str(remark) + "\")");
     }
 
     public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.commentResultMap(element, introspectedTable);
+        // this.commentResultMap(element, introspectedTable);
         return true;
     }
 
     public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        this.commentResultMap(element, introspectedTable);
+        // this.commentResultMap(element, introspectedTable);
         return true;
     }
 
@@ -188,8 +191,8 @@ public class CommentPlugin extends PluginAdapter {
 
     public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
         document.getRootElement().addElement(new TextElement(""));
-        document.getRootElement().addElement(new TextElement("<!-- ### 以上代码由MBG + CommentPlugin自动生成, 生成时间: " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()) + " ### -->\n\n\n"));
-        document.getRootElement().addElement(new TextElement("<!-- Your codes goes here!!! -->"));
+        // document.getRootElement().addElement(new TextElement("<!-- ### 以上代码由MBG + CommentPlugin自动生成, 生成时间: " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()) + " ### -->\n\n\n"));
+        // document.getRootElement().addElement(new TextElement("<!-- Your codes goes here!!! -->"));
         document.getRootElement().addElement(new TextElement(""));
         return true;
     }
